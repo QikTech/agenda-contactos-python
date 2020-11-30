@@ -2,61 +2,61 @@
 import csv
 
 
-# Clase con los datos de cada contacto
+# Class with the data of each contact
 class Contact:
 
     # construct method
     def __init__(self, Pname, Pphone, Pemail):
         """
-        :param Pname: Nombre del nuevo registro
-        :param Pphone: Telefono del nuevo registro
-        :param Pemail: Email del nuevo registro
+        : param Pname: Name of the new record
+        : param Pphone: Phone of the new record
+        : param Pemail: Email of the new record
         """
         self.name = Pname
         self.phone = Pphone
         self.email = Pemail
 
 
-# Clase que contiene objetos de tipo Contact
+# Class containing objects of type Contact
 class ContactBook:
 
     # construct method
-    # inicializa el libro de contactos con una lista vacia
+    # initialize the contact book with an empty list
     def __init__(self):
         self._contacts = []
 
     def add(self, name, phone, email):
         """
-        Agrega a la lista un objeto de tipo Contact y lo guarda
-        :param name: Nombre del nuevo registro
-        :param phone: Telefono del nuevo registro
-        :param email: Email del nuevo registro
-        :return: none
+        Adds an object of type Contact to the list and saves it
+        : param name: Name of the new record
+        : param phone: Phone of the new record
+        : param email: Email of the new record
+        : return: none
         """
         contact = Contact(name, phone, email)
         self._contacts.append(contact)
         self._save()
-        print("**Registro exitoso.")
+        print("**Successful registration.")
 
     def delete(self, name):
         """
-        busca un contacto por su nombre y lo elimina, luego guarda el csv
-        :param name: nombre del registro a borrar
+        search for a contact by name and delete it, then save the csv
+        : param name: name of the record to delete
         :return: none
         """
         for idx, contact in enumerate(self._contacts):
             if contact.name.lower() == name.lower():
                 del self._contacts[idx]
                 self._save()
-                print("El contacto {} se elimino con exito.".format(contact.name))
+                print("Contact {} was successfully removed.".format(contact.name))
                 break
         else:
             self._not_found()
 
     def _save(self):
         """
-        utiliza o crea un archivo contact.csv (w = write) y le escribe las lineas de
-        cabecera, y luego un ciclo for para escribir todos los datos de contactos
+        uses or creates a contact.csv file (w = write) and writes the lines of
+        header, and then a for loop to write all contact data
         :return:
         """
         with open('contact.csv', 'w') as f:
@@ -68,19 +68,19 @@ class ContactBook:
 
     def _print_contact(self, contact):
         """
-        metodo que imprime un contacto
-        :param contact: contacto a imprimir
+        method that prints a contact
+        : param contact: contact to print
         :return: none
         """
         print('--- * --- * --- * --- * --- * --- * --- * ---')
-        print('Nombre: {}'.format(contact.name))
-        print('Telefono: {}'.format(contact.phone))
+        print('Name: {}'.format(contact.name))
+        print('Phone No: {}'.format(contact.phone))
         print('Email: {}'.format(contact.email))
         print('--- * --- * --- * --- * --- * --- * --- * ---')
 
     def show_all(self):
         """
-        Imprime todos los contactos haciendo uso del metodo _print_contact
+        Print all the contacts using the _print_contact method
         :return: none
         """
         for contact in self._contacts:
@@ -88,9 +88,9 @@ class ContactBook:
 
     def search(self, name):
         """
-        Busca un nombre en la lista de contactos
-        cuando lo encuentra break
-        :param name: nombre a buscar
+        Search for a name in the contact list
+        when you find it break
+        : param name: name to search
         :return: none
         """
         for contact in self._contacts:
@@ -102,29 +102,29 @@ class ContactBook:
 
     def update(self, name):
         """
-        actualiza los datos de un contacto
-        :param name: nombre de contacto a actualizar
+        update contact details
+        : param name: contact name to update
         :return: none
         """
         for contact in self._contacts:
             if contact.name.lower() == name.lower():
-                contact.phone = str(input("Nuevo telefono: "))
-                contact.email = str(input("Nuevo correo electronico: "))
+                contact.phone = str(input("New phone: "))
+                contact.email = str(input("New email: "))
                 self._save()
-                print("**Registro actualizado.")
+                print("**Updated registration.")
 
     def _not_found(self):
         print('*******')
-        print('No encontrado!')
+        print('Not found!')
         print('*******')
 
 
 def run():
-    # Creando una instancia de la clase ContactBook
+    # Creating an instance of the ContactBook class
     contact_book = ContactBook()
 
-    # Abre un archivo llamado "contact.csv" (r = read) y extrae el contenido para
-    # usarlo en la app de terminal, si toma la cabecera o linea vacia: continue
+    # Open a file called "contact.csv" (r = read) and extract the content for
+    # use it in the terminal app, if it takes the header or empty line: continue
     with open('contact.csv', 'r') as f:
         reader = csv.reader(f)
         for idx, row in enumerate(reader):
@@ -138,33 +138,33 @@ def run():
 
     while True:
         command = str(input("""
-            ¿Que desea hacer?
+            What would you like to do?
             
-            [a]ñadir contacto
-            [ac]tualizar contacto
-            [b]uscar contacto
-            [e]liminar contacto
-            [l]istar contactos
-            [s]alir
+            [a]add contact
+            [ac]update contact
+            [b]search contact
+            [e]preliminary contact
+            [l]List contacts
+            [s]exit
         """))
 
         if command == 'a':
-            name = str(input("Escribe el nombre del contacto: "))
-            phone = str(input("Escribe el telefono del contacto: "))
-            email = str(input("Escribe el email del contacto: "))
+            name = str(input("Write the name of the contact: "))
+            phone = str(input("Write the phone number of the contact: "))
+            email = str(input("Write the contact email: "))
 
             contact_book.add(name, phone, email)
 
         elif command == 'ac':
-            name = str(input("Escribe el nombre del contacto: "))
+            name = str(input("Write the name of the contact: "))
             contact_book.update(name)
 
         elif command == 'b':
-            name = str(input("Escribe el nombre del contacto: "))
+            name = str(input("Write the name of the contact: "))
             contact_book.search(name)
 
         elif command == 'e':
-            name = str(input("Escribe el nombre del contacto a borrar: "))
+            name = str(input("Write the name of the contact to delete: "))
             contact_book.delete(name)
 
         elif command == 'l':
@@ -174,11 +174,11 @@ def run():
             break
 
         else:
-            print('Comando no encontrado !')
+            print('Command not found!')
 
 
-# estas lineas sirven para ejecutar unicamente este archivo
-# en caso hayan otros modulos de python importados
+# these lines are used to execute only this file
+# in case there are other imported python modules
 if __name__ == '__main__':
     print('W E L C O M E')
     run()
